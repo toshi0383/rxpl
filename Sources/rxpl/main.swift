@@ -3,6 +3,7 @@ import SwiftCLI
 import RxSwift
 
 let version = "0.1.0"
+let emoji = "🐦"
 
 final class MainCommand: Command {
     let name = "run"
@@ -24,7 +25,7 @@ final class MainCommand: Command {
             }
 
             // setup
-            stdout <<< "[configure] Configuring workspace for first time. This may take minutes..."
+            stdout <<< "\(emoji) Initializing workspace. This may take minutes..."
 
             let packageswift: Data = """
             // swift-tools-version:5.1
@@ -46,8 +47,12 @@ final class MainCommand: Command {
             assert(fm.createFile(atPath: "\(workspace)/Package.swift", contents: packageswift, attributes: nil))
             assert(fm.createFile(atPath: mainswift, contents: defaultContent, attributes: nil))
 
-            stdout <<< try Task.capture(bash: "cd \(workspace) && swift build").stdout
-            stdout <<< "[configure] finish"
+            Task(executable: "/bin/bash",
+                     arguments: ["-c", "swift build"],
+                     directory: workspace,
+                     stdout: stdout).runSync()
+
+            stdout <<< "\(emoji) Initialize OK"
         }
 
         try configureWorkspace()
@@ -78,7 +83,7 @@ final class MainCommand: Command {
 
         assert(fm.createFile(atPath: mainswift, contents: data, attributes: nil))
 
-        try Task.run(bash: "cd \(workspace) && swift run")
+        try Task.run(bash: "swift run", directory: workspace)
     }
 }
 
