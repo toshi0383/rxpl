@@ -2,7 +2,7 @@ import Foundation
 import SwiftCLI
 import RxSwift
 
-let version = "0.1.0"
+let version = "0.1.2"
 let emoji = "🐦"
 
 final class MainCommand: Command {
