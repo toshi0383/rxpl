@@ -8,7 +8,8 @@ You don't need playground GUI with Xcode to try out small things!
 
 ## Usage
 
-```hellorx.swift
+```
+// hellorx.swift
 import RxSwift
 
 _ = Observable.just(1).debug("[A]").subscribe()
@@ -29,6 +30,14 @@ $ rxpl run hellorx.swift
 ```
 mint install toshi0383/rxpl
 ```
+
+## Why rxpl ?
+
+`rxpl` is lightweight and for quick use in command-line.
+
+If you need Xcode Playground, try these awesome tools!
+
+- https://github.com/bow-swift/nef
 
 ## License
 
