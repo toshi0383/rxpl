@@ -28,18 +28,26 @@ final class MainCommand: Command {
             stdout <<< "\(emoji) Initializing workspace. This may take minutes..."
 
             let packageswift: Data = """
-            // swift-tools-version:5.1
+            // swift-tools-version:5.3
             import PackageDescription
 
             let package = Package(
                 name: "rxplws",
                 dependencies: [
-                    .package(url: "https://github.com/ReactiveX/RxSwift", from: "5.0.1"),
+                    .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.0.0"),
+                    .package(url: "https://github.com/jakeheis/SwiftCLI", from: "6.0.0"),
                 ],
                 targets: [
-                    .target(name: "rxplws", dependencies: ["RxSwift", "RxRelay"]),
+                    .target(
+                        name: "rxplws",
+                        dependencies: [
+                            .product(name: "RxRelay", package: "RxSwift"),
+                            .product(name: "RxSwift", package: "RxSwift"),
+                            .product(name: "SwiftCLI", package: "SwiftCLI"),
+                        ]),
                 ]
             )
+
             """.data(using: .utf8)!
 
             try fm.createDirectory(at: URL(fileURLWithPath: sourceDir), withIntermediateDirectories: true, attributes: nil)
